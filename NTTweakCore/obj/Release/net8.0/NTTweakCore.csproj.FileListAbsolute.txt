@@ -1,0 +1,14 @@
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\bin\Release\net8.0\NTTweakCore.exe
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\bin\Release\net8.0\NTTweakCore.deps.json
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\bin\Release\net8.0\NTTweakCore.runtimeconfig.json
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\bin\Release\net8.0\NTTweakCore.dll
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\bin\Release\net8.0\NTTweakCore.pdb
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\obj\Release\net8.0\NTTweakCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\obj\Release\net8.0\NTTweakCore.AssemblyInfoInputs.cache
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\obj\Release\net8.0\NTTweakCore.AssemblyInfo.cs
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\obj\Release\net8.0\NTTweakCore.csproj.CoreCompileInputs.cache
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\obj\Release\net8.0\NTTweakCore.dll
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\obj\Release\net8.0\refint\NTTweakCore.dll
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\obj\Release\net8.0\NTTweakCore.pdb
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\obj\Release\net8.0\NTTweakCore.genruntimeconfig.cache
+C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\obj\Release\net8.0\ref\NTTweakCore.dll
