@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace NTTweakCore
 {
@@ -35,6 +36,8 @@ namespace NTTweakCore
             RegisterCommand("--help", args => ShowHelp());
             RegisterCommand("--version", args => ShowVersion());
             RegisterCommand("--info", args => ShowInfo());
+            RegisterCommand("--createNewTweak", async args => await CustomTweakClass.CreateNewTweak());
+            RegisterCommand("--executeCustomTweak", async args => await CustomTweakClass.ExecuteCustomTweak(args));
             RegisterCommand("--reloadExplorer", args => ExecuteCommand("taskkill /f /im explorer.exe && timeout /t 2 && start explorer.exe", false));
             RegisterCommand("--enableSecondsOnTaskBar", args => ExecuteCommand("reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\" /v ShowSecondsInSystemClock /t REG_DWORD /d 1 /f && taskkill /f /im explorer.exe && timeout /t 2 && start explorer.exe", false));
             RegisterCommand("--disableSecondsOnTaskBar", args => ExecuteCommand("reg add \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\" /v ShowSecondsInSystemClock /t REG_DWORD /d 0 /f && taskkill /f /im explorer.exe && timeout /t 2 && start explorer.exe", false));
@@ -58,7 +61,7 @@ namespace NTTweakCore
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("   _  ______________  _____            \n  / |/ /_  __/_  __/ / ___/__  _______ \n /    / / /   / /   / /__/ _ \\/ __/ -_)\n/_/|_/ /_/   /_/    \\___/\\___/_/  \\__/ \n                                       ");
-            Console.WriteLine("version: v1.7\n");
+            Console.WriteLine("version: v2.0\n");
             Console.ResetColor();
             Console.WriteLine("--------------------------------------------\n");
 
@@ -69,6 +72,7 @@ namespace NTTweakCore
             else
             {
                 Console.WriteLine("Неизвестная команда. Напишите NTTweakCore.exe --help чтобы узнать список доступных команд.");
+                await CMDClass.ExecuteCommand("NTTweakCore.exe --executeCustomTweak testTweak.ntt", true);
             }
         }
 
@@ -80,7 +84,7 @@ namespace NTTweakCore
         private static Task ShowHelp()
         {
             Console.WriteLine("Помощь по командам в NTTweak Core: \n\nОсновные команды: \n----------------------------\n--reloadExplorer - перезапускает проводник (explorer.exe)\n--version - версия твикера" +
-                                  "--help - помощь по командам\n--info - информация о твикере\n--installApp - установить приложение\n----------------------------\nТвики на внешний вид:\n----------------------------\n--enableSecondsOnTaskBar - включает отображение секунд на панели задач\n--disableSecondsOnTaskBar - выключает отображение секунд на панели задач\n\n--enableShowHiddenFilesAndFolders - включает отображение скрытых файлов и папок\n--enableShowHiddenFilesAndFolders - отключает отображение скрытых файлов и папок\n\n" +
+                                  "--help - помощь по командам\n--info - информация о твикере\n--installApp - установить приложение\n--createNewTweak - создает файл твика\n--executeCustomTweak - запускает и выполняет кастомный твик. Пример: --executeCustomTweak test.ntt\n----------------------------\nТвики на внешний вид:\n----------------------------\n--enableSecondsOnTaskBar - включает отображение секунд на панели задач\n--disableSecondsOnTaskBar - выключает отображение секунд на панели задач\n\n--enableShowHiddenFilesAndFolders - включает отображение скрытых файлов и папок\n--enableShowHiddenFilesAndFolders - отключает отображение скрытых файлов и папок\n\n" +
                                   "--enableShowFileExtensions - включает отображение расширений файлов\n--disableShowFileExtensions - отключает отображение расширений файлов\n\n--enableShowMyPCOnDesktop - включает отображение ярлыка 'Этот компьютер' на рабочем столе.\n--disableShowMyPCOnDesktop - отключает отображение ярлыка 'Этот компьютер' на рабочем столе.\n" +
                                   "\n----------------------------\nОсновные твики:\n----------------------------\n--enableUpdateCenter - включает центр обновлений\n--disableUpdateCenter - отключает центр обновлений\n\n--enableWindowsDefender - включает Windows Defender\n--disableWindowsDefender - отключает Windows Defender" +
                                   "\n\n--enableUAC - включает UAC в системе\n--disableUAC - отключает UAC в системе\n----------------------------\n\nУстановка приложений\n----------------------------\n--installApp - позволяет установить приложение\n\nwinget (доп. аргумент к --installApp) - пакетный менеджер который будет использоваться для установки приложения" +
@@ -90,7 +94,7 @@ namespace NTTweakCore
 
         private static Task ShowVersion()
         {
-            Console.WriteLine("Версия NTTweak Core: v1.7");
+            Console.WriteLine("Версия NTTweak Core: v2.0");
             return Task.CompletedTask;
         }
 
@@ -105,6 +109,7 @@ namespace NTTweakCore
             Console.WriteLine("Минутку...");
             await CMDClass.ExecuteCommand(command, waitForExit: waitForExit);
         }
+
 
 
         private static async Task InstallApp(string[] args)

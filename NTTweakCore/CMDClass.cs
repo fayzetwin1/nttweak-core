@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿﻿using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -64,10 +64,6 @@ public class CMDClass
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-        }
-        finally
-        {
-            Environment.Exit(0);
         }
         
         return (output, error);
