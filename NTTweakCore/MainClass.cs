@@ -61,7 +61,7 @@ namespace NTTweakCore
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("   _  ______________  _____            \n  / |/ /_  __/_  __/ / ___/__  _______ \n /    / / /   / /   / /__/ _ \\/ __/ -_)\n/_/|_/ /_/   /_/    \\___/\\___/_/  \\__/ \n                                       ");
-            Console.WriteLine("version: v2.0\n");
+            Console.WriteLine("version: v2.25\n");
             Console.ResetColor();
             Console.WriteLine("--------------------------------------------\n");
 
@@ -72,7 +72,6 @@ namespace NTTweakCore
             else
             {
                 Console.WriteLine("Неизвестная команда. Напишите NTTweakCore.exe --help чтобы узнать список доступных команд.");
-                await CMDClass.ExecuteCommand("NTTweakCore.exe --executeCustomTweak testTweak.ntt", true);
             }
         }
 
@@ -94,7 +93,7 @@ namespace NTTweakCore
 
         private static Task ShowVersion()
         {
-            Console.WriteLine("Версия NTTweak Core: v2.0");
+            Console.WriteLine("Версия NTTweak Core: v2.25");
             return Task.CompletedTask;
         }
 

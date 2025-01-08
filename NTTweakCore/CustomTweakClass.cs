@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace NTTweakCore;
 
@@ -9,7 +10,9 @@ public class CustomTweakClass {
     private static readonly Dictionary<string, Func<string, string, Task>> Commands = new()
     {
         { "print", HandlePrintCommand },
-        { "execute", HandleExecuteCommand }
+        { "execute", HandleExecuteCommand },
+        { "wait", HandleWaitCommand },
+        { "colortext", HandleColorTextCommand }
     };
 
     public static async Task CreateNewTweak() {
@@ -37,24 +40,15 @@ public class CustomTweakClass {
             return;
         }
 
-        if (Path.GetExtension(fileName) != ".ntt") {
-            Console.WriteLine("Неизвестное разрешение файла. NTT поддерживает только .ntt файлы в контексте кастомных твиков.");
-            return;
-        }
-
         foreach (var line in File.ReadLines(fileName)) {
-            string commandName = line.Split(' ')[0];
-            if (Commands.ContainsKey(commandName)) {
-                int firstQuoteIndex = line.IndexOf('"');
-                int lastQuoteIndex = line.LastIndexOf('"');
+            string[] parts = line.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 0) continue;
 
-                if (firstQuoteIndex != -1 && lastQuoteIndex > firstQuoteIndex) {
-                    string context = line.Substring(firstQuoteIndex + 1, lastQuoteIndex - firstQuoteIndex - 1);
-                    string parameters = line.Substring(lastQuoteIndex + 1).Trim();
-                    await Commands[commandName](context, parameters);
-                } else {
-                    Console.WriteLine($"Ошибка: некорректный формат команды {commandName}.");
-                }
+            string commandName = parts[0];
+            string context = parts.Length > 1 ? parts[1].Trim('"') : string.Empty;
+
+            if (Commands.ContainsKey(commandName)) {
+                await Commands[commandName](context, parts.Length > 1 ? parts[1] : string.Empty);
             } else {
                 Console.WriteLine($"Неизвестная команда: {commandName}");
             }
@@ -62,20 +56,98 @@ public class CustomTweakClass {
     }
 
     private static Task HandlePrintCommand(string context, string parameters) {
-        if (parameters.Contains("--uppercase")) {
-            context = context.ToUpper();
+        // Удаляем параметры из контекста перед обработкой
+        int paramIndex = context.IndexOf(" --");
+        if (paramIndex != -1) {
+            context = context.Substring(0, paramIndex);
         }
-        if (parameters.Contains("--reverse")) {
-            char[] charArray = context.ToCharArray();
-            Array.Reverse(charArray);
-            context = new string(charArray);
+
+        string[] paramArray = parameters.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        foreach (var param in paramArray) {
+            if (param == "--uppercase") {
+                context = context.ToUpper();
+            } else if (param == "--reverse") {
+                char[] charArray = context.ToCharArray();
+                Array.Reverse(charArray);
+                context = new string(charArray).Trim('"');
+            }
         }
         Console.WriteLine(context);
         return Task.CompletedTask;
     }
 
+
     private static async Task HandleExecuteCommand(string context, string parameters) {
         bool waitForExit = parameters.Contains("--waitForExit");
         await CMDClass.ExecuteCommand(context, waitForExit);
+    }
+
+    private static Task HandleWaitCommand(string context, string parameters) {
+        if (int.TryParse(context, out int seconds)) {
+            Thread.Sleep(seconds * 1000);
+        } else {
+            Console.WriteLine("Ошибка: Некорректное значение для команды wait.");
+        }
+        return Task.CompletedTask;
+    }
+
+    private static Task HandleColorTextCommand(string context, string parameters) {
+        ConsoleColor color;
+        switch (context.ToLower()) {
+            case "black":
+                color = ConsoleColor.Black;
+                break;
+            case "blue":
+                color = ConsoleColor.Blue;
+                break;
+            case "cyan":
+                color = ConsoleColor.Cyan;
+                break;
+            case "darkblue":
+                color = ConsoleColor.DarkBlue;
+                break;
+            case "darkcyan":
+                color = ConsoleColor.DarkCyan;
+                break;
+            case "darkgray":
+                color = ConsoleColor.DarkGray;
+                break;
+            case "darkgreen":
+                color = ConsoleColor.DarkGreen;
+                break;
+            case "darkmagenta":
+                color = ConsoleColor.DarkMagenta;
+                break;
+            case "darkred":
+                color = ConsoleColor.DarkRed;
+                break;
+            case "darkyellow":
+                color = ConsoleColor.DarkYellow;
+                break;
+            case "gray":
+                color = ConsoleColor.Gray;
+                break;
+            case "green":
+                color = ConsoleColor.Green;
+                break;
+            case "magenta":
+                color = ConsoleColor.Magenta;
+                break;
+            case "red":
+                color = ConsoleColor.Red;
+                break;
+            case "white":
+                color = ConsoleColor.White;
+                break;
+            case "yellow":
+                color = ConsoleColor.Yellow;
+                break;
+            default:
+                Console.WriteLine($"Ошибка: неизвестный цвет '{context}'.");
+                return Task.CompletedTask;
+        }
+
+        Console.ForegroundColor = color;
+        return Task.CompletedTask;
     }
 }
