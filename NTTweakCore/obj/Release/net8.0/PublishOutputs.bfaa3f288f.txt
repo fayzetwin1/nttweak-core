@@ -1,5 +1,0 @@
-C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\bin\Release\net8.0\publish\NTTweakCore.exe
-C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\bin\Release\net8.0\publish\NTTweakCore.dll
-C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\bin\Release\net8.0\publish\NTTweakCore.deps.json
-C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\bin\Release\net8.0\publish\NTTweakCore.runtimeconfig.json
-C:\Users\userTheBest\RiderProjects\NTTweakCore\NTTweakCore\bin\Release\net8.0\publish\NTTweakCore.pdb
